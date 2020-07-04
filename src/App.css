@@ -1,0 +1,44 @@
+.app {
+  margin: 6rem;
+}
+
+.review__text {
+  font-size: 1rem;
+}
+
+.review__textfield {
+  display: inline;
+  background: none;
+  border: none;
+  border-bottom: 1px dashed #aaa;
+  outline: none;
+  font-size: 1rem;
+  transition: background 120ms ease-in-out;
+}
+.review__textfield:focus {
+  background: rgba(238, 238, 238, 0.461);
+}
+
+.review__textfield.pass {
+  background: #81e88d;
+}
+.review__textfield.warn {
+  background: #fff577;
+}
+.review__textfield.fail {
+  background: #fd9c8d;
+}
+
+.review__answer-container {
+  position: relative;
+  font-size: 1rem;
+}
+.review__answer {
+  position: absolute;
+  left: 0.1rem;
+  top: -1.25rem;
+  opacity: 0.25;
+  user-select: none;
+  pointer-events: none;
+  z-index: 2;
+}
