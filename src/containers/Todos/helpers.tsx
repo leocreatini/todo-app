@@ -6,3 +6,7 @@ export function todosByDate(a: Todo, b: Todo) {
   }
   return 0
 }
+
+export function splitByCompleted([com, inc]: Todo[][], t: Todo) {
+  return t.isComplete ? [[t, ...com], inc] : [com, [t, ...inc]]
+}

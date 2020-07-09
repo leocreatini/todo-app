@@ -14,7 +14,7 @@ import * as mutations from '../../graphql/mutations'
 import * as queries from '../../graphql/queries'
 import { useAuth } from '../../context/AuthContext'
 import { Todo } from './types'
-import { todosByDate } from './helpers'
+import { todosByDate, splitByCompleted } from './helpers'
 import './style.scss'
 
 interface TodosProps extends RouteComponentProps {}
@@ -121,7 +121,10 @@ function Todos(props: TodosProps) {
     fetchTodos()
   }, [])
 
-  const sortedTodos: Todo[] = todos.sort((a, b) => (a.isComplete && !b.isComplete ? 1 : -1))
+  const [completed, incompleted] = todos.reduce(splitByCompleted, [[], []])
+  const completeTodos = completed.sort(todosByDate)
+  const incompleteTodos = incompleted.sort(todosByDate)
+  const allTodos = [...incompleteTodos, ...completeTodos]
 
   return (
     <section className="todo-app">
@@ -159,19 +162,19 @@ function Todos(props: TodosProps) {
       )}
       <ul className="todo__list">
         <FlipMove>
-          {sortedTodos.map((todo: Todo) => (
-            <li key={todo.id} className="todo__item">
+          {allTodos.map((t) => (
+            <li key={t.id} className="todo__item">
               <button
-                className={todo.isComplete ? 'todo__item-button completed' : 'todo__item-button'}
-                onClick={toggleComplete(todo)}
-                onKeyUp={handleKeyPress(todo)}
+                className={t.isComplete ? 'todo__item-button completed' : 'todo__item-button'}
+                onClick={toggleComplete(t)}
+                onKeyUp={handleKeyPress(t)}
                 title="Mark completed or undo"
               >
-                {todo.name}
+                {t.name}
               </button>
               <button
                 className="todo__item-delete"
-                onClick={deleteTodo(todo)}
+                onClick={deleteTodo(t)}
                 tabIndex={-1}
                 title="Delete todo"
               >
