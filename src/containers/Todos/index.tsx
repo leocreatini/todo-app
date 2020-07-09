@@ -121,10 +121,8 @@ function Todos(props: TodosProps) {
     fetchTodos()
   }, [])
 
-  const [completed, incompleted] = todos.reduce(splitByCompleted, [[], []])
-  const completeTodos = completed.sort(todosByDate)
-  const incompleteTodos = incompleted.sort(todosByDate)
-  const allTodos = [...incompleteTodos, ...completeTodos]
+  const [incompleted, completed] = todos.reduce(splitByCompleted, [[], []])
+  const allTodos = [...incompleted.sort(todosByDate), ...completed.sort(todosByDate)]
 
   return (
     <section className="todo-app">
