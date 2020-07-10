@@ -13,8 +13,9 @@ import {
 import * as mutations from '../../graphql/mutations'
 import * as queries from '../../graphql/queries'
 import { useAuth } from '../../context/AuthContext'
-import { Todo } from './types'
+import InlineButton from '../../components/InlineButton'
 import { todosByDate, splitByCompleted } from './helpers'
+import { Todo } from './types'
 import './style.scss'
 
 interface TodosProps extends RouteComponentProps {}
@@ -22,7 +23,7 @@ interface TodosProps extends RouteComponentProps {}
 const initialState: Todo = { name: '', description: '', isComplete: false }
 
 function Todos(props: TodosProps) {
-  const { logout } = useAuth()
+  const { signOut } = useAuth()
   const [todo, setTodo] = React.useState(initialState)
   const [todos, setTodos] = React.useState([] as Todo[])
 
@@ -127,8 +128,8 @@ function Todos(props: TodosProps) {
   return (
     <section className="todo-app">
       <nav className="todo__nav">
-        <button className="inline-button" onClick={logout}>
-          Logout
+        <button className="inline-button" onClick={signOut}>
+          Log Out
         </button>
       </nav>
 
@@ -183,16 +184,14 @@ function Todos(props: TodosProps) {
         </FlipMove>
       </ul>
       <footer className="todo__footer">
-        Made by{' '}
-        <a
-          className="inline-button"
-          href="https://leocreatini.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Leo Creatini
-        </a>{' '}
-        with Typescript, React, GraphQL, and AWS. 2020.
+        <p>
+          Made by <InlineButton title="Leo Creatini" href="https://leocreatini.com" /> with
+          Typescript, React, GraphQL, and AWS. 2020.
+        </p>
+        <p>
+          View code on{' '}
+          <InlineButton title="GitHub" href="https://github.com/leocreatini/todo-app" />.
+        </p>
       </footer>
     </section>
   )

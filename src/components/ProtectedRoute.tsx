@@ -9,16 +9,14 @@ interface ProtectedRouteProps extends RouteComponentProps {
 export default function ProtectedRoute({
   as: Route,
   navigate: nav,
-  default: boolean,
+  default: def,
   path,
   location,
   uri,
   ...props
 }: ProtectedRouteProps) {
   const { user } = useAuth()
-
   if (!user) {
-    console.log('No user, go to login.')
     navigate('/sign-in')
   }
   return <Route {...props} />

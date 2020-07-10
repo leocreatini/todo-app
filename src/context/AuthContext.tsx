@@ -3,8 +3,9 @@ import { Auth } from 'aws-amplify'
 import { navigate } from '@reach/router'
 
 interface AuthContextProps {
-  user: Object
-  logout: () => void
+  user: Object | null
+  signIn: (email: string, password: string) => void
+  signOut: () => void
 }
 
 interface UserData {
@@ -13,7 +14,11 @@ interface UserData {
   isVerified: boolean
 }
 
-const AuthContext = React.createContext<Partial<AuthContextProps>>({})
+const AuthContext = React.createContext<AuthContextProps>({
+  user: null,
+  signIn: () => {},
+  signOut: () => {},
+})
 
 function createUserData(authData: any): UserData | {} {
   return authData
@@ -39,13 +44,27 @@ function AuthContextProvider(props: any) {
         }
         setHasAttemptedSignIn(true)
       } catch (error) {
+        if (error === 'not authenticated') {
+          console.log(error)
+          navigate('/sign-in')
+        }
         setHasAttemptedSignIn(true)
       }
     }
     getUser()
   }, [setUser])
 
-  async function logout() {
+  async function signIn(email: string, password: string) {
+    try {
+      const authData = await Auth.signIn({ username: email, password: password })
+      setUser(createUserData(authData))
+      navigate('/')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function signOut() {
     try {
       await Auth.signOut()
       navigate('/sign-in')
@@ -58,7 +77,7 @@ function AuthContextProvider(props: any) {
   if (!hasAttemptedSignIn) {
     return <p>Loading...</p>
   }
-  return <AuthContext.Provider value={{ user, logout }} {...props} />
+  return <AuthContext.Provider value={{ user, signIn, signOut }} {...props} />
 }
 
 function useAuth() {

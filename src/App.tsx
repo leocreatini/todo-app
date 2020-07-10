@@ -7,9 +7,8 @@ import SignUpForm from './containers/SignUpForm'
 import ConfirmSignUpForm from './containers/ConfirmSignUpForm'
 import ResetPasswordForm from './containers/ResetPasswordForm'
 import Todos from './containers/Todos'
-
-import './App.css'
 import ProtectedRoute from './components/ProtectedRoute'
+import './App.css'
 
 const TodosRoute = (props: RouteComponentProps) => <Todos path={props.path} />
 const SignInFormRoute = (props: RouteComponentProps) => (
@@ -28,7 +27,7 @@ function App() {
     <div className="app-background">
       <AuthContextProvider>
         <Router>
-          <ProtectedRoute as={TodosRoute} path="/" />
+          <ProtectedRoute path="/" as={TodosRoute} />
           <SignInFormRoute path="/sign-in" />
           <SignUpFormRoute path="/sign-up" />
           <ConfirmSignUpFormRoute path="/confirm-sign-up" />

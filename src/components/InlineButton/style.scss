@@ -1,0 +1,15 @@
+.inline-button {
+  background: none;
+  border: none;
+  text-align: left;
+  color: #27aa89;
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
+  outline: none !important;
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
+}

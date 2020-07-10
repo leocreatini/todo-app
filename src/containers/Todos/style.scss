@@ -6,28 +6,25 @@
   font-style: italic;
 }
 
-.inline-button {
-  background: none;
-  border: none;
-  text-align: left;
-  color: #27aa89;
-  text-decoration: underline;
-  cursor: pointer;
-  outline: none !important;
-
-  &:hover,
-  &:focus {
-    text-decoration: none;
-  }
-}
-
 // Components
 .todo-app {
   margin: 0rem auto;
-  max-width: 30rem;
+  max-width: 16rem;
   display: flex;
   flex-direction: column;
   height: 100vh;
+
+  @media (min-width: 375px) {
+    max-width: 18rem;
+  }
+
+  @media (min-width: 540px) {
+    max-width: 22rem;
+  }
+
+  @media (min-width: 768px) {
+    max-width: 30rem;
+  }
 }
 
 .todo__nav {

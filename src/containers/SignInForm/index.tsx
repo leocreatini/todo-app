@@ -1,11 +1,11 @@
 import React from 'react'
-import { RouteComponentProps, navigate } from '@reach/router'
+import { RouteComponentProps } from '@reach/router'
 import { InputGroup, Checkbox, Button, Intent } from '@blueprintjs/core'
 import { Link } from '@reach/router'
 
-import './style.scss'
-import { Auth } from 'aws-amplify'
 import AuthCard from '../../components/AuthCard'
+import { useAuth } from '../../context/AuthContext'
+import './style.scss'
 
 interface SignInProps extends RouteComponentProps {
   location: any
@@ -14,18 +14,16 @@ interface SignInProps extends RouteComponentProps {
 const initialUserInputs = { email: '', password: '', remember: 'unchecked' }
 
 export default function SignIn(props: SignInProps) {
+  const { signIn } = useAuth()
   const [userInputs, setUserInputs] = React.useState(initialUserInputs)
 
   function updateField(event: React.ChangeEvent<HTMLInputElement>) {
     setUserInputs({ ...userInputs, [event.target.name]: event.target.value })
   }
 
-  async function signIn(event: React.ChangeEvent<HTMLFormElement>) {
+  function handleSignIn(event: React.ChangeEvent<HTMLFormElement>) {
     event.preventDefault()
-    try {
-      await Auth.signIn({ username: userInputs.email, password: userInputs.password })
-      navigate('/')
-    } catch (error) {}
+    signIn(userInputs.email, userInputs.password)
   }
 
   React.useEffect(() => {
@@ -36,7 +34,7 @@ export default function SignIn(props: SignInProps) {
 
   return (
     <AuthCard>
-      <form className="auth-form" onSubmit={signIn}>
+      <form className="auth-form" onSubmit={handleSignIn}>
         <h2>Sign In</h2>
         <div className="auth-form__field">
           <label>
