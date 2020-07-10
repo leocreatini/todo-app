@@ -1,11 +1,15 @@
 import React from 'react'
 import { RouteComponentProps } from '@reach/router'
-import { InputGroup, Checkbox, Button, Intent } from '@blueprintjs/core'
+import { InputGroup, Button, Intent } from '@blueprintjs/core'
 import { Link } from '@reach/router'
 
 import AuthCard from '../../components/AuthCard'
 import { useAuth } from '../../context/AuthContext'
 import './style.scss'
+import { InlineButton } from '../../components/InlineButton'
+
+const TEST_EMAIL = 'test@testing.com'
+const TEST_PASS = 'Testing1!'
 
 interface SignInProps extends RouteComponentProps {
   location: any
@@ -24,6 +28,10 @@ export default function SignIn(props: SignInProps) {
   function handleSignIn(event: React.ChangeEvent<HTMLFormElement>) {
     event.preventDefault()
     signIn(userInputs.email, userInputs.password)
+  }
+
+  function useTestAccount() {
+    signIn(TEST_EMAIL, TEST_PASS)
   }
 
   React.useEffect(() => {
@@ -67,14 +75,7 @@ export default function SignIn(props: SignInProps) {
           </label>
         </div>
         <div className="auth-form__field">
-          <Checkbox
-            label="Keep Me Signed In (30 Days)"
-            className="auth-form__checkbox"
-            type="checkbox"
-            name="remember"
-            value={userInputs.remember}
-            onChange={updateField}
-          />
+          <InlineButton title="Use public test account instead" onClick={useTestAccount} />
         </div>
         <section className="action-bar">
           <Button

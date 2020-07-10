@@ -3,7 +3,7 @@ import { Auth } from 'aws-amplify'
 import { navigate } from '@reach/router'
 
 interface AuthContextProps {
-  user: Object | null
+  user: UserData
   signIn: (email: string, password: string) => void
   signOut: () => void
 }
@@ -15,7 +15,11 @@ interface UserData {
 }
 
 const AuthContext = React.createContext<AuthContextProps>({
-  user: null,
+  user: {
+    uid: '',
+    email: '',
+    isVerified: false,
+  },
   signIn: () => {},
   signOut: () => {},
 })

@@ -40,6 +40,7 @@ export default function ConfirmSignUpForm(props: SignUpFormProps) {
     <AuthCard>
       <form className="auth-form" onSubmit={confirmSignUp}>
         <h2>Confirm Sign Up</h2>
+        <p>Check your email for the six-digit code.</p>
         <div className="auth-form__field">
           <label>
             <span className="auth-form__label">Confirmation Code</span>

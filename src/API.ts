@@ -4,14 +4,14 @@
 
 export type CreateTodoInput = {
   id?: string | null,
+  author: string,
   name: string,
-  description?: string | null,
   isComplete?: boolean | null,
 };
 
 export type ModelTodoConditionInput = {
+  author?: ModelStringInput | null,
   name?: ModelStringInput | null,
-  description?: ModelStringInput | null,
   isComplete?: ModelBooleanInput | null,
   and?: Array< ModelTodoConditionInput | null > | null,
   or?: Array< ModelTodoConditionInput | null > | null,
@@ -67,8 +67,8 @@ export type ModelBooleanInput = {
 
 export type UpdateTodoInput = {
   id: string,
+  author?: string | null,
   name?: string | null,
-  description?: string | null,
   isComplete?: boolean | null,
 };
 
@@ -78,8 +78,8 @@ export type DeleteTodoInput = {
 
 export type ModelTodoFilterInput = {
   id?: ModelIDInput | null,
+  author?: ModelStringInput | null,
   name?: ModelStringInput | null,
-  description?: ModelStringInput | null,
   isComplete?: ModelBooleanInput | null,
   and?: Array< ModelTodoFilterInput | null > | null,
   or?: Array< ModelTodoFilterInput | null > | null,
@@ -111,8 +111,8 @@ export type CreateTodoMutation = {
   createTodo:  {
     __typename: "Todo",
     id: string,
+    author: string,
     name: string,
-    description: string | null,
     isComplete: boolean | null,
     createdAt: string,
     updatedAt: string,
@@ -128,8 +128,8 @@ export type UpdateTodoMutation = {
   updateTodo:  {
     __typename: "Todo",
     id: string,
+    author: string,
     name: string,
-    description: string | null,
     isComplete: boolean | null,
     createdAt: string,
     updatedAt: string,
@@ -145,8 +145,8 @@ export type DeleteTodoMutation = {
   deleteTodo:  {
     __typename: "Todo",
     id: string,
+    author: string,
     name: string,
-    description: string | null,
     isComplete: boolean | null,
     createdAt: string,
     updatedAt: string,
@@ -161,8 +161,8 @@ export type GetTodoQuery = {
   getTodo:  {
     __typename: "Todo",
     id: string,
+    author: string,
     name: string,
-    description: string | null,
     isComplete: boolean | null,
     createdAt: string,
     updatedAt: string,
@@ -181,8 +181,8 @@ export type ListTodosQuery = {
     items:  Array< {
       __typename: "Todo",
       id: string,
+      author: string,
       name: string,
-      description: string | null,
       isComplete: boolean | null,
       createdAt: string,
       updatedAt: string,
@@ -195,8 +195,8 @@ export type OnCreateTodoSubscription = {
   onCreateTodo:  {
     __typename: "Todo",
     id: string,
+    author: string,
     name: string,
-    description: string | null,
     isComplete: boolean | null,
     createdAt: string,
     updatedAt: string,
@@ -207,8 +207,8 @@ export type OnUpdateTodoSubscription = {
   onUpdateTodo:  {
     __typename: "Todo",
     id: string,
+    author: string,
     name: string,
-    description: string | null,
     isComplete: boolean | null,
     createdAt: string,
     updatedAt: string,
@@ -219,8 +219,8 @@ export type OnDeleteTodoSubscription = {
   onDeleteTodo:  {
     __typename: "Todo",
     id: string,
+    author: string,
     name: string,
-    description: string | null,
     isComplete: boolean | null,
     createdAt: string,
     updatedAt: string,

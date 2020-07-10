@@ -13,17 +13,17 @@ import {
 import * as mutations from '../../graphql/mutations'
 import * as queries from '../../graphql/queries'
 import { useAuth } from '../../context/AuthContext'
-import InlineButton from '../../components/InlineButton'
+import { InlineButtonLink } from '../../components/InlineButton'
 import { todosByDate, splitByCompleted } from './helpers'
 import { Todo } from './types'
 import './style.scss'
 
 interface TodosProps extends RouteComponentProps {}
 
-const initialState: Todo = { name: '', description: '', isComplete: false }
+const initialState: Todo = { name: '', author: '', isComplete: false }
 
 function Todos(props: TodosProps) {
-  const { signOut } = useAuth()
+  const { user, signOut } = useAuth()
   const [todo, setTodo] = React.useState(initialState)
   const [todos, setTodos] = React.useState([] as Todo[])
 
@@ -32,9 +32,16 @@ function Todos(props: TodosProps) {
   }
 
   async function fetchTodos() {
-    const result = (await API.graphql(graphqlOperation(queries.listTodos))) as GraphQLResult<
-      ListTodosQuery
-    >
+    const result = (await API.graphql(
+      graphqlOperation(queries.listTodos, {
+        filter: {
+          author: {
+            eq: user.uid,
+          },
+        },
+        // authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
+      })
+    )) as GraphQLResult<ListTodosQuery>
     if (result.data?.listTodos?.items) {
       let todos: Todo[] = []
       result.data.listTodos.items.forEach((item: Todo | null) => {
@@ -49,9 +56,9 @@ function Todos(props: TodosProps) {
 
   async function addTodo(event: React.ChangeEvent<HTMLFormElement>) {
     event.preventDefault()
-    if (todo.name.length > 0) {
+    if (todo.name.length > 0 && user && user) {
       const result = (await API.graphql(
-        graphqlOperation(mutations.createTodo, { input: todo })
+        graphqlOperation(mutations.createTodo, { input: { ...todo, author: user.uid } })
       )) as GraphQLResult<CreateTodoMutation>
 
       if (result.data?.createTodo) {
@@ -120,7 +127,7 @@ function Todos(props: TodosProps) {
   // init
   React.useEffect(() => {
     fetchTodos()
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const [incompleted, completed] = todos.reduce(splitByCompleted, [[], []])
   const allTodos = [...incompleted.sort(todosByDate), ...completed.sort(todosByDate)]
@@ -185,12 +192,12 @@ function Todos(props: TodosProps) {
       </ul>
       <footer className="todo__footer">
         <p>
-          Made by <InlineButton title="Leo Creatini" href="https://leocreatini.com" /> with
+          Made by <InlineButtonLink title="Leo Creatini" href="https://leocreatini.com" /> with
           Typescript, React, GraphQL, and AWS. 2020.
         </p>
         <p>
           View code on{' '}
-          <InlineButton title="GitHub" href="https://github.com/leocreatini/todo-app" />.
+          <InlineButtonLink title="GitHub" href="https://github.com/leocreatini/todo-app" />.
         </p>
       </footer>
     </section>

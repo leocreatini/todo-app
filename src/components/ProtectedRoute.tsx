@@ -16,8 +16,9 @@ export default function ProtectedRoute({
   ...props
 }: ProtectedRouteProps) {
   const { user } = useAuth()
-  if (!user) {
+  if (!user || !user.uid) {
     navigate('/sign-in')
+    return null
   }
   return <Route {...props} />
 }

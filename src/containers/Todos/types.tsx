@@ -1,7 +1,7 @@
 export interface Todo {
   id?: string
   name: string
-  description: string | null
+  author: string
   isComplete: boolean | null
   createdAt?: string
   updatedAt?: string

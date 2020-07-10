@@ -6,8 +6,8 @@ export const onCreateTodo = /* GraphQL */ `
   subscription OnCreateTodo {
     onCreateTodo {
       id
+      author
       name
-      description
       isComplete
       createdAt
       updatedAt
@@ -18,8 +18,8 @@ export const onUpdateTodo = /* GraphQL */ `
   subscription OnUpdateTodo {
     onUpdateTodo {
       id
+      author
       name
-      description
       isComplete
       createdAt
       updatedAt
@@ -30,8 +30,8 @@ export const onDeleteTodo = /* GraphQL */ `
   subscription OnDeleteTodo {
     onDeleteTodo {
       id
+      author
       name
-      description
       isComplete
       createdAt
       updatedAt

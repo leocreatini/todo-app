@@ -1,6 +1,6 @@
 type Todo @model {
   id: ID!
+  author: String!
   name: String!
-  description: String
   isComplete: Boolean
 }
